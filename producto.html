@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productos - Admin</title>
+  <link rel="stylesheet" href="bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .navbar {
+      background: rgba(33, 37, 41, 0.95) !important;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.5rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .btn-outline-light {
+      border-radius: 12px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.3s ease;
+      font-weight: 500;
+      margin-left: 0.5rem;
+    }
+    
+    .btn-outline-light:hover {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-color: transparent;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+    
+    .content-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+    }
+    
+    .page-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      color: white;
+    }
+    
+    .page-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    .page-subtitle {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+    
+    .btn-success {
+      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+      border: none;
+      border-radius: 12px;
+      padding: 12px 24px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    }
+    
+    .btn-success:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+    }
+    
+    .table {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      background: white;
+    }
+    
+    .table thead th {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      font-weight: 600;
+      padding: 1.25rem 1rem;
+      text-align: center;
+    }
+    
+    .table tbody td {
+      padding: 1.25rem 1rem;
+      vertical-align: middle;
+      border-color: #e1e5e9;
+      text-align: center;
+    }
+    
+    .table tbody tr {
+      transition: all 0.3s ease;
+    }
+    
+    .table tbody tr:hover {
+      background: rgba(102, 126, 234, 0.05);
+      transform: scale(1.01);
+    }
+    
+    .product-image {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      object-fit: cover;
+      border: 2px solid #667eea;
+      box-shadow: 0 2px 10px rgba(102, 126, 234, 0.2);
+    }
+    
+    .price-badge {
+      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    
+    .stock-badge {
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    
+    .stock-high {
+      background: #d1edff;
+      color: #0c5460;
+    }
+    
+    .stock-medium {
+      background: #fff3cd;
+      color: #856404;
+    }
+    
+    .stock-low {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    
+    .category-badge {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .btn-action {
+      border-radius: 12px;
+      padding: 0.5rem 1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: none;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 0 0.25rem;
+    }
+    
+    .btn-edit {
+      background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+      color: white;
+    }
+    
+    .btn-edit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+      color: white;
+    }
+    
+    .btn-delete {
+      background: linear-gradient(135deg, #dc3545 0%, #e83e8c 100%);
+      color: white;
+    }
+    
+    .btn-delete:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
+      color: white;
+    }
+    
+    .modal-content {
+      border-radius: 20px;
+      border: none;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+    
+    .modal-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 20px 20px 0 0;
+      border: none;
+    }
+    
+    .modal-title {
+      font-weight: 700;
+    }
+    
+    .btn-close {
+      filter: invert(1);
+    }
+    
+    .form-control, .form-select {
+      border-radius: 12px;
+      border: 2px solid #e1e5e9;
+      padding: 12px 16px;
+      transition: all 0.3s ease;
+    }
+    
+    .form-control:focus, .form-select:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+    
+    .form-label {
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 0.5rem;
+    }
+    
+    .preview-image {
+      width: 80px;
+      height: 80px;
+      border-radius: 12px;
+      object-fit: cover;
+      border: 3px solid #667eea;
+      box-shadow: 0 2px 10px rgba(102, 126, 234, 0.2);
+      transition: all 0.3s ease;
+    }
+    
+    .preview-image:hover {
+      transform: scale(1.1);
+    }
+    
+    .stats-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      backdrop-filter: blur(10px);
+      text-align: center;
+      color: white;
+    }
+    
+    .stats-number {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    .stats-label {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: #6c757d;
+    }
+    
+    .empty-state i {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <i class="bi bi-box-seam-fill"></i> Productos
+      </a>
+      <div class="d-flex">
+        <a href="panelA.html" class="btn btn-outline-light">Panel</a>
+        <a href="usuariosr.html" class="btn btn-outline-light">Usuarios</a>
+        <a href="categorias.html" class="btn btn-outline-light">Categorías</a>
+        <a href="pedidos.html" class="btn btn-outline-light">Pedidos</a>
+      </div>
+    </div>
+  </nav>
+  
+  <div class="container mt-4">
+    <div class="page-header">
+      <h1 class="page-title">
+        <i class="bi bi-box-seam-fill"></i> Gestión de Productos
+      </h1>
+      <p class="page-subtitle">Administra el catálogo de tu cafetería</p>
+    </div>
+    
+    <!-- Estadísticas -->
+    <div class="row g-4 mb-4">
+      <div class="col-md-4">
+        <div class="stats-card">
+          <div class="stats-number" id="totalProductos">0</div>
+          <div class="stats-label">Total de Productos</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="stats-card">
+          <div class="stats-number" id="productosStock">0</div>
+          <div class="stats-label">Con Stock</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="stats-card">
+          <div class="stats-number" id="totalCategorias">0</div>
+          <div class="stats-label">Categorías</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="content-card p-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Lista de Productos</h2>
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalProducto">
+          <i class="bi bi-plus-circle me-2"></i>Agregar Producto
+        </button>
+      </div>
+      
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Foto</th>
+              <th>Nombre</th>
+              <th>Precio</th>
+              <th>Stock</th>
+              <th>Categoría</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="productosTableBody">
+            <!-- Aquí se insertarán los productos -->
+          </tbody>
+        </table>
+      </div>
+      
+      <!-- Estado vacío -->
+      <div class="empty-state" id="noProductos" style="display: none;">
+        <i class="bi bi-box"></i>
+        <h3>No hay productos registrados</h3>
+        <p>Agrega tu primer producto para comenzar</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal para agregar/editar producto -->
+  <div class="modal fade" id="modalProducto" tabindex="-1" aria-labelledby="modalProductoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalProductoLabel">
+            <i class="bi bi-plus-circle me-2"></i>Agregar Producto
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <form id="formProducto">
+            <input type="hidden" id="productoIndex">
+            
+            <div class="row">
+              <div class="col-md-4 text-center mb-4">
+                <img src="https://cdn-icons-png.flaticon.com/512/3081/3081559.png" id="previewImg" class="preview-image mb-3" alt="Foto producto" />
+                <div class="form-group">
+                  <input class="form-control" type="file" id="foto" accept="image/png, image/jpeg, image/jpg">
+                  <small class="text-muted">Formatos: PNG, JPG, JPEG</small>
+                </div>
+              </div>
+              
+              <div class="col-md-8">
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="nombre" class="form-label">Nombre del Producto</label>
+                    <input type="text" class="form-control" id="nombre" required>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="precio" class="form-label">Precio</label>
+                    <div class="input-group">
+                      <span class="input-group-text">$</span>
+                      <input type="number" class="form-control" id="precio" min="0" step="0.01" required>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="stock" class="form-label">Stock Disponible</label>
+                    <input type="number" class="form-control" id="stock" min="0" step="1" required>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="categoria" class="form-label">Categoría</label>
+                    <select class="form-select" id="categoria" required>
+                      <!-- Se llenará dinámicamente -->
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="text-center mt-4">
+              <button type="submit" class="btn btn-success btn-lg px-5">
+                <i class="bi bi-check-circle me-2"></i>Guardar Producto
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="apppe.js"></script>
+  <script src="bootstrap.bundle.min.js"></script>
+  <script src="sweetalert2.all.min.js"></script>
+</body>
+</html> 
